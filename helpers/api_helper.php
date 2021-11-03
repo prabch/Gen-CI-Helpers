@@ -19,16 +19,16 @@ public function send_request
 
 	if ($params) $url = sprintf("%s?%s", $url, http_build_query($params));
 	switch ($method){
-	  case "POST":
-	     curl_setopt($ch, CURLOPT_POST, 1);
-	     if ($body) curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
-	     break;
-	  case "PUT":
-	     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-	     if ($body) curl_setopt($ch, CURLOPT_POSTFIELDS, $body);			 					
-	     break;
-	  default:
-	     if ($body) $url = sprintf("%s?%s", $url, http_build_query($body));
+		case "POST":
+		 	curl_setopt($ch, CURLOPT_POST, 1);
+		 	if ($body) curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
+		 	break;
+		case "GET":
+			if ($body) $url = sprintf("%s?%s", $url, http_build_query($body));		 					
+			break;
+		default:
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+			if ($body) curl_setopt($ch, CURLOPT_POSTFIELDS, $body);	
 	}
 
 	switch ($body_type){
